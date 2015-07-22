@@ -1,0 +1,22 @@
+---
+- name: tap Emacs Mac
+  homebrew_tap: tap=railwaycat/emacsmacport
+
+- name: Install Emacs Mac port via homebrew
+  homebrew:
+    name=emacs-mac
+    install_options={{ emacs_mac_install_options }}
+
+- name: link homebrew apps
+  shell: brew linkapps
+
+- name: Install spacemacs
+  git: repo={{ emacs_config_repo_url }}
+       dest=~/.emacs.d
+       recursive=yes
+       depth=1
+
+- name: Copy .spacemacs
+  get_url:
+    url={{ spacemacs_file_url }}
+    dest=~/.spacemacs
